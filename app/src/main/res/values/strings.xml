@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SuperAdministrator</string>
+    <string name="facebook_app_id">569652350355882</string>
+    <string name="fb_login_protocol_scheme">fb569652350355882</string>
+    <string name="cancel_login">Operation cancel</string>
+    <string name="error_login">An error has occurred</string>
+    <string name="logout_button">Log Out</string>
+    <string name="Complete">Success!</string>
+
 </resources>
