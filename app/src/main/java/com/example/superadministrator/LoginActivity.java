@@ -1,9 +1,7 @@
 package com.example.superadministrator;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,9 +47,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        TextView nameTextView = findViewById(R.id.nameTextView);
-        TextView emailTextView = findViewById(R.id.emailTextView);
-        TextView uidTextView = findViewById(R.id.uidTextView);
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
