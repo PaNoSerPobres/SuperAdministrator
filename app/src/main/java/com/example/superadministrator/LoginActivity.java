@@ -2,6 +2,7 @@ package com.example.superadministrator;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
                 // ...
+                response.getError();
+                Log.e(null, response.getError().getMessage());
                 Toast.makeText(this, R.string.error_login, Toast.LENGTH_SHORT).show();
             }
         }
