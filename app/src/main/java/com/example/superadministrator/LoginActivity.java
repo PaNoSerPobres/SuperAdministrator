@@ -40,8 +40,8 @@ public class LoginActivity extends AppCompatActivity {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
-                        .setLogo(R.drawable.fui_ic_microsoft_24dp)
-                        //.setTheme()
+                        .setLogo(R.mipmap.logo)
+                        .setTheme(R.style.LoginTheme)
                         .build(), RC_SIGN_IN);
     }
     @Override
@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Successfully signed in
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 goMainScreen();
+                createProfileUser();
                 // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
@@ -66,6 +67,10 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.error_login, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void createProfileUser() {
+
     }
 
     private void goMainScreen() {
