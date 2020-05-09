@@ -10,16 +10,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.superadministrator.Class.Entities.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     List<AuthUI.IdpConfig> providers;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String TAG = "Login Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 user = FirebaseAuth.getInstance().getCurrentUser();
-                goMainScreen();
-                createProfileUser();
+                userExist();
                 // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
@@ -75,29 +79,60 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+    private  boolean ad()
+    {
+        return true;
+    }
+
+    private void userExist() {
+        DocumentReference docRef = db.collection("Users").document(user.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        goMainScreen();
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        createProfileUser();
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+    }
 
     private void createProfileUser() {
-        Map<String,Object> ProfileData= new HashMap<>();
-        ProfileData.put("Name",user.getDisplayName());
-        ProfileData.put("Email",user.getEmail());
-        ProfileData.put("Image",user.getPhotoUrl());
-        ProfileData.put("Friends", Arrays.asList());
+        String name = user.getDisplayName();
+        String email = user.getEmail();
+        String image = user.getPhotoUrl().toString();
+        List<String> friends = Arrays.asList();
+        Users ProfileData = new Users(name,email,image,friends);
         db.collection("Users").document(user.getUid())
                 .set(ProfileData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Map<String,Object> Categories = new HashMap<>();
-                        
-                        Log.d("loginActivity", "User successfully written!");
+                        assignCategories();
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w("loginActivity", "Error writing document", e);
+                        Log.w(TAG, "Error writing document", e);
                     }
                 });
+    }
+
+    private void assignCategories() {
+        List<Categories> defaultCategories = new ArrayList<>();
+        Categories ca1 = new Categories("Food","ic_food");
+        defaultCategories.add(ca1);
 
     }
 
