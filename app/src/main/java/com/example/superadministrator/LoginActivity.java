@@ -112,6 +112,9 @@ public class LoginActivity extends AppCompatActivity {
         String image = user.getPhotoUrl().toString();
         List<String> friends = Arrays.asList();
         Users ProfileData = new Users(name,email,image,friends);
+        List<Categories> lstDefaultCategories = assignCategories();
+
+
         db.collection("Users").document(user.getUid())
                 .set(ProfileData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -129,11 +132,34 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void assignCategories() {
+    private List<Categories> assignCategories() {
         List<Categories> defaultCategories = new ArrayList<>();
-        Categories ca1 = new Categories("Food","ic_food");
-        defaultCategories.add(ca1);
+        Categories food = new Categories("Food","ic_food", true);
+        defaultCategories.add(food);
+        Categories transport = new Categories("Transport","ic_transport", true);
+        defaultCategories.add(transport);
+        Categories bank = new Categories("Bank","ic_bank", true);
+        defaultCategories.add(bank);
+        Categories cash = new Categories("Cash","ic_cash", false);
+        defaultCategories.add(cash);
+        Categories clothes = new Categories("Clothes","ic_clothes", true);
+        defaultCategories.add(clothes);
+        Categories creditcard = new Categories("Credit Card","ic_creditcard", false);
+        defaultCategories.add(creditcard);
+        Categories hobbies = new Categories("Hobbies","ic_hobbies", true);
+        defaultCategories.add(hobbies);
+        Categories home = new Categories("Home","ic_home", true);
+        defaultCategories.add(home);
+        Categories saves = new Categories("Saves","ic_saves", false);
+        defaultCategories.add(saves);
+        Categories payroll = new Categories("Payroll","ic_payroll", false);
+        defaultCategories.add(payroll);
+        Categories shopping = new Categories("Shopping","ic_shopping", true);
+        defaultCategories.add(shopping);
+        Categories freetime = new Categories("Free Time","ic_freetime", true);
+        defaultCategories.add(freetime);
 
+        return defaultCategories;
     }
 
     private void goMainScreen() {

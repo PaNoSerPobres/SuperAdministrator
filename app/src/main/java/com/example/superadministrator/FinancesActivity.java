@@ -2,8 +2,14 @@ package com.example.superadministrator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -18,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class FinancesActivity extends AppCompatActivity {
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    Dialog popUpCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +65,18 @@ public class FinancesActivity extends AppCompatActivity {
             AddFinance.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    String iconFood = "ic_food";
+                    Bitmap icon = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconFood, "drawable",getPackageName()));
                 }
             });
             //endregion ButtonAdd
         }
 
+    }
+
+    private void ShowCategoriesPopUp(View v)
+    {
+        popUpCategories.setContentView(R.layout.popup_categorias);
     }
 
     private void goLoginScreen() {
