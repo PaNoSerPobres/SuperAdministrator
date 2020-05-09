@@ -158,6 +158,7 @@ public class LoginActivity extends AppCompatActivity {
         defaultCategories.add(shopping);
         Categories freetime = new Categories("Free Time","ic_freetime", true);
         defaultCategories.add(freetime);
+
         return defaultCategories;
     }
 
