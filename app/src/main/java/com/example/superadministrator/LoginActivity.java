@@ -73,16 +73,11 @@ public class LoginActivity extends AppCompatActivity {
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
                 // ...
-                response.getError();
-                Log.e(null, response.getError().getMessage());
                 Toast.makeText(this, R.string.error_login, Toast.LENGTH_SHORT).show();
             }
         }
     }
-    private  boolean ad()
-    {
-        return true;
-    }
+
 
     private void userExist() {
         DocumentReference docRef = db.collection("Users").document(user.getUid());
@@ -120,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        assignCategories();
+
                         Log.d(TAG, "DocumentSnapshot successfully written!");
                     }
                 })

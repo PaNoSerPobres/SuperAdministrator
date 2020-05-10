@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -65,8 +66,13 @@ public class FinancesActivity extends AppCompatActivity {
             AddFinance.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String iconFood = "ic_food";
-                    Bitmap icon = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconFood, "drawable",getPackageName()));
+                    String ref = "ic_food";
+                    String context = getPackageName() + ":drawable/" + ref;
+                    int id = getResources().getIdentifier(context, null, null);
+
+
+
+
                 }
             });
             //endregion ButtonAdd
