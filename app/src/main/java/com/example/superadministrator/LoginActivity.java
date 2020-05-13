@@ -20,10 +20,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.superadministrator.Class.Entities.*;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -67,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
                 // Successfully signed in
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 userExist();
-                // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
@@ -77,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-
 
     private void userExist() {
         DocumentReference docRef = db.collection("Users").document(user.getUid());
@@ -107,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         String image = user.getPhotoUrl().toString();
         List<String> friends = Arrays.asList();
         Users ProfileData = new Users(name,email,image,friends);
-        List<Categories> lstDefaultCategories = assignCategories();
+        final List<Categories> lstDefaultCategories = assignCategories();
 
 
         db.collection("Users").document(user.getUid())
@@ -115,7 +116,16 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
+                        for ( Categories c : lstDefaultCategories){
+                            Map<String, Object> category = new HashMap<>();
+                            Map<String, Object> info = new HashMap<>();
+                            info.put("IsExpense", c.isExpense());
+                            info.put("Image", c.getImage());
+                            category.put(c.getType(),info);
+                            db.collection("Users").document(user.getUid()).collection("Categories").document("DefaultCategories")
+                                    .set(category, SetOptions.merge());
+                        }
+                        goMainScreen();
                         Log.d(TAG, "DocumentSnapshot successfully written!");
                     }
                 })
@@ -125,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+
     }
 
     private List<Categories> assignCategories() {

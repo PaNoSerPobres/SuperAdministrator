@@ -70,9 +70,6 @@ public class FinancesActivity extends AppCompatActivity {
                     String context = getPackageName() + ":drawable/" + ref;
                     int id = getResources().getIdentifier(context, null, null);
 
-
-
-
                 }
             });
             //endregion ButtonAdd
